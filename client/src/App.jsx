@@ -11,7 +11,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        {/* Agar koi ajeeb path khole toh seedhe login par bhej do */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
