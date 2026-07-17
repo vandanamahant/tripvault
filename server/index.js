@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/trips', require('./routes/tripRoutes'));
+app.use(errorHandler);
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI)
