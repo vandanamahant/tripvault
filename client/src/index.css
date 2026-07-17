@@ -119,37 +119,37 @@ body {
   font-style: italic;
 }
 
-.actions { 
-  margin-bottom: 20px; 
+.actions {
+  margin-bottom: 20px;
 }
 
-.form-wrapper { 
-  background: #fff; 
-  padding: 20px; 
-  border-radius: 8px; 
-  border: 1px solid #ddd; 
-  margin-bottom: 20px; 
+.form-wrapper {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
   max-width: 400px;
 }
 
-.trip-form { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 12px; 
+.trip-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.trip-form input, 
-.trip-form textarea { 
-  padding: 10px; 
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
+.trip-form input,
+.trip-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   font-size: 14px;
 }
 
-.dashboard-footer { 
-  margin-top: 30px; 
-  padding-top: 20px; 
-  border-top: 1px solid #eee; 
+.dashboard-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 }
 
 .btn-delete {
@@ -165,4 +165,31 @@ body {
 
 .btn-delete:hover {
   background: #c82333;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-edit {
+  background: #ffc107;
+  color: #000;
+  border:
+    none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
 }

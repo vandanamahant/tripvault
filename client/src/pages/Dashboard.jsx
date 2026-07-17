@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [trips, setTrips] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingTrip, setEditingTrip] = useState(null);
   const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
@@ -37,6 +38,13 @@ const Dashboard = () => {
     fetchData();
   }, [fetchData]);
 
+  
+  const handleEditClick = (trip) => {
+    setEditingTrip(trip);
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  };
+
   const deleteTrip = async (id) => {
     if (window.confirm("Are you sure you want to delete this trip?")) {
       try {
@@ -46,6 +54,12 @@ const Dashboard = () => {
         alert("Failed to delete the trip.");
       }
     }
+  };
+
+  const handleTripAction = () => {
+    setShowForm(false);
+    setEditingTrip(null);
+    fetchData();
   };
 
   const handleLogout = () => {
@@ -61,14 +75,17 @@ const Dashboard = () => {
       </header>
 
       <section className="actions">
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
+        <button 
+          onClick={() => { setEditingTrip(null); setShowForm(!showForm); }} 
+          className="btn-primary"
+        >
           {showForm ? 'Close Form' : 'Create New Trip'}
         </button>
       </section>
 
       {showForm && (
         <div className="form-wrapper">
-          <TripForm onTripCreated={() => { setShowForm(false); fetchData(); }} />
+          <TripForm trip={editingTrip} onTripCreated={handleTripAction} />
         </div>
       )}
 
@@ -82,13 +99,11 @@ const Dashboard = () => {
               <div key={trip._id} className="trip-card">
                 <h4>{trip.title}</h4>
                 <p><strong>Destination:</strong> {trip.destination}</p>
-                <p><strong>Rating:</strong> {trip.rating}/5</p>
-                <button 
-                  onClick={() => deleteTrip(trip._id)} 
-                  className="btn-delete"
-                >
-                  Delete
-                </button>
+                <p><strong>Rating:</strong> {trip.rating || 'N/A'}/5</p>
+                <div className="card-actions">
+                  <button onClick={() => handleEditClick(trip)} className="btn-edit">Edit</button>
+                  <button onClick={() => deleteTrip(trip._id)} className="btn-delete">Delete</button>
+                </div>
               </div>
             ))}
           </div>
