@@ -151,3 +151,18 @@ body {
   padding-top: 20px; 
   border-top: 1px solid #eee; 
 }
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}

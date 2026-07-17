@@ -37,6 +37,17 @@ const Dashboard = () => {
     fetchData();
   }, [fetchData]);
 
+  const deleteTrip = async (id) => {
+    if (window.confirm("Are you sure you want to delete this trip?")) {
+      try {
+        await api.delete(`/trips/${id}`);
+        fetchData();
+      } catch (err) {
+        alert("Failed to delete the trip.");
+      }
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -72,6 +83,12 @@ const Dashboard = () => {
                 <h4>{trip.title}</h4>
                 <p><strong>Destination:</strong> {trip.destination}</p>
                 <p><strong>Rating:</strong> {trip.rating}/5</p>
+                <button 
+                  onClick={() => deleteTrip(trip._id)} 
+                  className="btn-delete"
+                >
+                  Delete
+                </button>
               </div>
             ))}
           </div>
