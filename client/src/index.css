@@ -1,126 +1,67 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background-color: #f4f6f9;
   color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-}
-
-.auth-card {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 380px;
-  box-sizing: border-box;
-}
-
-.auth-card h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #2c3e50;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.btn {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #3498db;
-}
-
-.btn-success {
-  background-color: #2ecc71;
-}
-
-.btn-danger {
-  background-color: #e74c3c;
-}
-
-.error-msg {
-  color: #e74c3c;
-  background-color: #fde8e7;
-  padding: 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.switch-text {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
 }
 
 .dashboard-container {
   max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 20px auto;
+  padding: 20px;
 }
 
-.dashboard-header {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 2rem;
+.btn {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-.trips-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+.btn-primary {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+}
+
+.btn-edit {
+  background: #ffc107;
+  color: #000;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-logout {
+  background: #6c757d;
+  color: white;
+  padding: 0.5rem 1rem;
 }
 
 .trip-card {
   border: 1px solid #ddd;
   padding: 1.5rem;
-  border-radius: 8px;
-  transition: 0.3s;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.trip-card:hover {
-  border-color: #007bff;
+.trips-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  margin-top: 20px;
 }
 
-.btn-logout {
-  background: #dc3545;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.empty-state {
-  color: #666;
-  font-style: italic;
-}
-
-.actions {
-  margin-bottom: 20px;
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .form-wrapper {
@@ -129,7 +70,6 @@ body {
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 20px;
-  max-width: 400px;
 }
 
 .trip-form {
@@ -143,53 +83,4 @@ body {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
-}
-
-.dashboard-footer {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-.btn-delete {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 13px;
-}
-
-.btn-delete:hover {
-  background: #c82333;
-}
-
-.card-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.btn-edit {
-  background: #ffc107;
-  color: #000;
-  border:
-    none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-delete {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
 }
