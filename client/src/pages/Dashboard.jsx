@@ -1,29 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api from '../api';
+import TripForm from '../components/TripForm';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const [trips, setTrips] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      
-      try {
-        const response = await axios.get('http://localhost:5000/api/auth/me', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        setUser(response.data);
-      } catch (err) {
-        // If token verification fails, clear token and boot to login
-        localStorage.removeItem('token');
-        navigate('/login');
-      }
-    };
+  const fetchData = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
-    fetchUserData();
+    try {
+      const [userRes, tripsRes] = await Promise.all([
+        axios.get('http://localhost:5000/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        }),
+        api.get('/trips')
+      ]);
+      
+      setUser(userRes.data);
+      setTrips(tripsRes.data);
+    } catch (err) {
+      localStorage.removeItem('token');
+      navigate('/login');
+    }
   }, [navigate]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -31,22 +43,44 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="auth-card" style={{ maxWidth: '500px', textAlign: 'center' }}>
-      <h2>TripVault Journal</h2>
-      <hr style={{ border: '0', height: '1px', background: '#eee', margin: '15px 0' }} />
-      
-      {user ? (
-        <div>
-          <p style={{ fontSize: '18px' }}>Welcome back, <strong>{user.name}</strong>!</p>
-          <p style={{ color: '#7f8c8d', fontSize: '14px' }}>Registered Email: {user.email}</p>
+    <div className="dashboard-container">
+      <header className="dashboard-header">
+        <h1>TripVault Journal</h1>
+        {user && <p>Welcome back, {user.name}</p>}
+      </header>
+
+      <section className="actions">
+        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
+          {showForm ? 'Close Form' : 'Create New Trip'}
+        </button>
+      </section>
+
+      {showForm && (
+        <div className="form-wrapper">
+          <TripForm onTripCreated={() => { setShowForm(false); fetchData(); }} />
         </div>
-      ) : (
-        <p>Loading your profile details...</p>
       )}
 
-      <button onClick={handleLogout} className="btn btn-danger" style={{ marginTop: '20px' }}>
-        Log Out
-      </button>
+      <section className="trips-section">
+        <h3>Your Trips</h3>
+        {trips.length === 0 ? (
+          <p className="empty-state">No trips recorded yet.</p>
+        ) : (
+          <div className="trips-grid">
+            {trips.map((trip) => (
+              <div key={trip._id} className="trip-card">
+                <h4>{trip.title}</h4>
+                <p><strong>Destination:</strong> {trip.destination}</p>
+                <p><strong>Rating:</strong> {trip.rating}/5</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <footer className="dashboard-footer">
+        <button onClick={handleLogout} className="btn-logout">Log Out</button>
+      </footer>
     </div>
   );
 };
