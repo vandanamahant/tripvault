@@ -9,6 +9,12 @@ export default function UserProfile() {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [bioInput, setBioInput] = useState('');
+  const [updating, setUpdating] = useState(false);
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -16,6 +22,7 @@ export default function UserProfile() {
         setLoading(true);
         const { data } = await axios.get(`${API_BASE_URL}/api/users/${id}/profile`);
         setProfileData(data);
+        setBioInput(data?.user?.bio || '');
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load profile.');
       } finally {
@@ -25,6 +32,27 @@ export default function UserProfile() {
 
     fetchProfile();
   }, [id]);
+
+  const handleUpdateBio = async (e) => {
+    e.preventDefault();
+    try {
+      setUpdating(true);
+      const { data } = await axios.put(
+        `${API_BASE_URL}/api/users/profile`,
+        { bio: bioInput },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setProfileData(prev => ({
+        ...prev,
+        user: { ...prev.user, bio: data.bio || bioInput }
+      }));
+      setIsEditing(false);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update bio.');
+    } finally {
+      setUpdating(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -49,9 +77,45 @@ export default function UserProfile() {
       <div className="profile-header-card">
         <h1 className="profile-name">{user?.name}</h1>
         {user?.username && <p className="profile-username">@{user.username}</p>}
-        <p className="profile-bio">
-          {user?.bio || 'No bio provided yet.'}
-        </p>
+        
+        {!isEditing ? (
+          <div>
+            <p className="profile-bio">
+              {user?.bio || 'No bio provided yet.'}
+            </p>
+            {token && (
+              <button 
+                className="btn btn-secondary profile-action-btn" 
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Bio
+              </button>
+            )}
+          </div>
+        ) : (
+          <form onSubmit={handleUpdateBio} className="bio-edit-form">
+            <textarea
+              className="bio-textarea"
+              value={bioInput}
+              onChange={(e) => setBioInput(e.target.value)}
+              placeholder="Write your new bio..."
+              rows="3"
+              required
+            />
+            <div className="bio-form-actions">
+              <button type="submit" className="btn btn-primary" disabled={updating}>
+                {updating ? 'Saving...' : 'Save Bio'}
+              </button>
+              <button 
+                type="button" 
+                className="btn btn-secondary" 
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
       </div>
 
       <h2 className="profile-section-title">Trips</h2>
