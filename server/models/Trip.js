@@ -17,6 +17,12 @@ const tripSchema = new mongoose.Schema({
     min: 1, 
     max: 5 
   },
+  coverImage: { 
+    type: String 
+  },
+  photos: [{ 
+    type: String 
+  }],
   user: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 

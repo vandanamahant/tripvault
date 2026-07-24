@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Trip = require('../models/Trip');
 const authMiddleware = require('../middleware/authMiddleware');
+const upload = require('../middleware/upload'); 
 
 router.post('/', authMiddleware, async (req, res, next) => {
   try {
@@ -30,6 +31,35 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
     const trip = await Trip.findOne({ _id: req.params.id, user: req.userId });
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
     res.status(200).json(trip);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+router.post('/:id/upload', authMiddleware, upload.single('image'), async (req, res, next) => {
+  try {
+    const trip = await Trip.findOne({ _id: req.params.id, user: req.userId });
+    if (!trip) return res.status(404).json({ message: 'Trip not found' });
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const imageUrl = req.file.path; 
+
+    
+    if (!trip.coverImage) {
+      trip.coverImage = imageUrl;
+    }
+    trip.photos.push(imageUrl);
+
+    await trip.save();
+    res.status(200).json({
+      message: 'Photo uploaded successfully',
+      coverImage: trip.coverImage,
+      photos: trip.photos
+    });
   } catch (error) {
     next(error);
   }
