@@ -66,8 +66,9 @@ body {
 
 .trip-card-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 200px;
+  object-fit: contain; 
+  background-color: #221c1c;
 }
 
 .trip-card-image-placeholder {
