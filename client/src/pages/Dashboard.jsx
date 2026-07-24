@@ -50,28 +50,33 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>TripVault Journal</h1>
-        {user && (
-          <div className="user-welcome">
-            <p>Welcome back, {user.name}</p>
-            <Link 
-              to={`/profile/${user._id}`} 
-              className="btn btn-secondary" 
-              style={{ marginTop: '8px', display: 'inline-block', textDecoration: 'none' }}
-            >
+      <header className="dashboard-header-card">
+        <div className="header-top-row">
+          <div>
+            <h1>TripVault Journal</h1>
+            {user && <p className="welcome-text">Welcome back, <strong>{user.name}</strong></p>}
+          </div>
+          {user && (
+            <button className="btn btn-logout" onClick={() => { localStorage.clear(); navigate('/login'); }}>
+              Log Out
+            </button>
+          )}
+        </div>
+        <div className="header-bottom-row">
+          {user && (
+            <Link to={`/profile/${user._id}`} className="profile-link-text">
               View My Profile
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </header>
 
-      <section className="actions">
+      <section className="actions-section">
         <button 
           className="btn btn-primary" 
           onClick={() => { setEditingTrip(null); setShowForm(!showForm); }}
         >
-          {showForm ? 'Cancel' : 'Create New Trip'}
+          {showForm ? 'Cancel' : '+ Create New Trip'}
         </button>
       </section>
 
@@ -90,22 +95,27 @@ const Dashboard = () => {
           <div className="trips-grid">
             {trips.map(trip => (
               <div key={trip._id} className="trip-card">
-                <h4>{trip.title}</h4>
-                <p><strong>Destination:</strong> {trip.destination}</p>
-                <p><strong>Rating:</strong> {trip.rating || 'N/A'}/5</p>
-                <div className="card-actions">
-                  <button className="btn btn-edit" onClick={() => handleEdit(trip)}>Edit</button>
-                  <button className="btn btn-delete" onClick={() => handleDelete(trip._id)}>Delete</button>
+                {trip.coverImage ? (
+                  <div className="trip-card-image-container">
+                    <img src={trip.coverImage} alt={trip.title} className="trip-card-image" />
+                  </div>
+                ) : (
+                  <div className="trip-card-image-placeholder">No Image</div>
+                )}
+                <div className="trip-card-content">
+                  <h4>{trip.title}</h4>
+                  <p><strong>Destination:</strong> {trip.destination}</p>
+                  <p><strong>Rating:</strong> {trip.rating || 'N/A'} ⭐</p>
+                  <div className="card-actions">
+                    <button className="btn btn-edit" onClick={() => handleEdit(trip)}>Edit</button>
+                    <button className="btn btn-delete" onClick={() => handleDelete(trip._id)}>Delete</button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
       </section>
-
-      <footer className="dashboard-footer">
-        <button className="btn btn-logout" onClick={() => { localStorage.clear(); navigate('/login'); }}>Log Out</button>
-      </footer>
     </div>
   );
 };

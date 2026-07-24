@@ -45,10 +45,60 @@ body {
 
 .trip-card {
   border: 1px solid #ddd;
-  padding: 1.5rem;
   border-radius: 10px;
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+}
+
+.trip-card-image-container {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trip-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trip-card-image-placeholder {
+  width: 100%;
+  height: 160px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.trip-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+}
+
+.trip-card-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #1f2937;
+}
+
+.trip-card-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #4b5563;
 }
 
 .trips-grid {
@@ -213,11 +263,10 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Image container taaki image poori aur properly fit aaye */
 .profile-trip-image-container {
   width: 100%;
   height: 180px;
-  background-color: #0f172a; /* Dark sleek background for image padding if needed */
+  background-color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,7 +276,7 @@ body {
 .profile-trip-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Isse image kategi nahi, poori dikhegi */
+  object-fit: contain;
 }
 
 .profile-trip-image-placeholder {
@@ -284,4 +333,48 @@ body {
 .error-text {
   color: #dc2626;
   font-weight: 500;
+}
+
+.dashboard-header-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  border: 1px solid #eef0f2;
+  margin-bottom: 25px;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-top-row h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #1a1a1a;
+}
+
+.welcome-text {
+  margin: 4px 0 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.header-bottom-row {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.profile-link-text {
+  color: #7c3aed;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.profile-link-text:hover {
+  text-decoration: underline;
 }
