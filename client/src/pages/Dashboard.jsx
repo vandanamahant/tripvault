@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import api from '../api';
 import TripForm from '../components/TripForm';
@@ -11,7 +11,6 @@ const Dashboard = () => {
   const [editingTrip, setEditingTrip] = useState(null);
   const navigate = useNavigate();
 
-  
   const loadData = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!token) return navigate('/login');
@@ -53,7 +52,18 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>TripVault Journal</h1>
-        {user && <p>Welcome back, {user.name}</p>}
+        {user && (
+          <div className="user-welcome">
+            <p>Welcome back, {user.name}</p>
+            <Link 
+              to={`/profile/${user._id}`} 
+              className="btn btn-secondary" 
+              style={{ marginTop: '8px', display: 'inline-block', textDecoration: 'none' }}
+            >
+              View My Profile
+            </Link>
+          </div>
+        )}
       </header>
 
       <section className="actions">
