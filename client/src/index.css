@@ -64,9 +64,10 @@ body {
   justify-content: center;
 }
 
+/* Fix applied here: height 100% taaki container se bahar na jaye */
 .trip-card-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: contain; 
   background-color: #221c1c;
 }
@@ -127,6 +128,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .trip-form input,
@@ -134,6 +141,7 @@ body {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 14px;
 }
 
 .auth-card {

@@ -5,12 +5,19 @@ const Trip = require('../models/Trip');
 const authMiddleware = require('../middleware/authMiddleware');
 const upload = require('../middleware/upload');
 
-router.post('/', authMiddleware, async (req, res, next) => {
+router.post('/', authMiddleware, upload.single('image'), async (req, res, next) => {
   try {
-    const newTrip = new Trip({
+    const tripData = {
       ...req.body,
       user: req.userId
-    });
+    };
+
+    if (req.file) {
+      tripData.coverImage = req.file.path;
+      tripData.photos = [req.file.path];
+    }
+
+    const newTrip = new Trip(tripData);
     const savedTrip = await newTrip.save();
     res.status(201).json(savedTrip);
   } catch (error) {
@@ -37,14 +44,12 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
   }
 });
 
-
 router.put('/:id/photo', authMiddleware, upload.single('image'), async (req, res, next) => {
   try {
     const trip = await Trip.findOne({ _id: req.params.id, user: req.userId });
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
-    
     if (trip.photos && trip.photos.length > 0) {
       for (const imgUrl of trip.photos) {
         const parts = imgUrl.split('/');
@@ -55,8 +60,6 @@ router.put('/:id/photo', authMiddleware, upload.single('image'), async (req, res
     }
 
     const newImageUrl = req.file.path;
-
-  
     trip.coverImage = newImageUrl;
     trip.photos = [newImageUrl];
 
