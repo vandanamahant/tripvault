@@ -4,9 +4,9 @@ const User = require('../models/User');
 const Trip = require('../models/Trip');
 const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/:id/profile', async (req, res, next) => {
+router.get('/:username/profile', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id).select('-password -email');
+    const user = await User.findOne({ username: req.params.username }).select('-password -email');
     
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
