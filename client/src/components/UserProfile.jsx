@@ -5,7 +5,7 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function UserProfile() {
-  const { id } = useParams();
+  const { username } = useParams();
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -20,7 +20,7 @@ export default function UserProfile() {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${API_BASE_URL}/api/users/${id}/profile`);
+        const { data } = await axios.get(`${API_BASE_URL}/api/users/${username}/profile`);
         setProfileData(data);
         setBioInput(data?.user?.bio || '');
       } catch (err) {
@@ -31,7 +31,7 @@ export default function UserProfile() {
     };
 
     fetchProfile();
-  }, [id]);
+  }, [username]);
 
   const handleUpdateBio = async (e) => {
     e.preventDefault();
@@ -44,7 +44,7 @@ export default function UserProfile() {
       );
       setProfileData(prev => ({
         ...prev,
-        user: { ...prev.user, bio: data.bio || bioInput }
+        user: { ...prev.user, bio: data.user?.bio || bioInput }
       }));
       setIsEditing(false);
     } catch (err) {
