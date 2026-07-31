@@ -63,10 +63,12 @@ const Dashboard = () => {
           )}
         </div>
         <div className="header-bottom-row">
-          {user && (
+          {user && user.username ? (
             <Link to={`/profile/${user.username}`} className="profile-link-text">
               View My Profile
             </Link>
+          ) : (
+            <span className="profile-link-text" style={{ opacity: 0.6 }}>Loading Profile...</span>
           )}
         </div>
       </header>
