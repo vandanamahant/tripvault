@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import api from '../api';
 import TripForm from '../components/TripForm';
 
-const Dashboard = () => {
+const Dashboard = ({ isMobileMenuOpen, toggleMobileMenu }) => {
   const [user, setUser] = useState(null);
   const [trips, setTrips] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -58,6 +58,28 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+      {/* Mobile Header with Hamburger Toggle */}
+      <div className="mobile-navbar">
+        <button className="hamburger-btn" onClick={toggleMobileMenu}>
+          ☰
+        </button>
+        <span className="mobile-logo">TripVault</span>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      {isMobileMenuOpen && (
+        <div className="mobile-menu-dropdown">
+          {user && user.username && (
+            <Link to={`/profile/${user.username}`} onClick={toggleMobileMenu}>
+              View My Profile
+            </Link>
+          )}
+          <button className="btn btn-logout-mobile" onClick={() => { localStorage.clear(); navigate('/login'); }}>
+            Log Out
+          </button>
+        </div>
+      )}
+
       <header className="dashboard-header-card">
         <div className="header-top-row">
           <div>
@@ -65,12 +87,12 @@ const Dashboard = () => {
             {user && <p className="welcome-text">Welcome back, <strong>{user.name}</strong></p>}
           </div>
           {user && (
-            <button className="btn btn-logout" onClick={() => { localStorage.clear(); navigate('/login'); }}>
+            <button className="btn btn-logout desktop-only" onClick={() => { localStorage.clear(); navigate('/login'); }}>
               Log Out
             </button>
           )}
         </div>
-        <div className="header-bottom-row">
+        <div className="header-bottom-row desktop-only">
           {user && user.username ? (
             <Link to={`/profile/${user.username}`} className="profile-link-text">
               View My Profile

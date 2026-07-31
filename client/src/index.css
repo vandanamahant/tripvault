@@ -446,3 +446,75 @@ body {
     gap: 10px;
   }
 }
+
+/* --- Mobile Navbar & Hamburger Styles --- */
+.mobile-navbar {
+  display: none;
+}
+
+.mobile-menu-dropdown {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-navbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #eef0f2;
+    margin-bottom: 15px;
+  }
+
+  .hamburger-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #1a1a1a;
+  }
+
+  .mobile-logo {
+    font-weight: 700;
+    font-size: 18px;
+    color: #1a1a1a;
+  }
+
+  .mobile-menu-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #ffffff;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #eef0f2;
+  }
+
+  .mobile-menu-dropdown a {
+    color: #7c3aed;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .btn-logout-mobile {
+    background: #6c757d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+}
