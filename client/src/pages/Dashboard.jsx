@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [trips, setTrips] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTrip, setEditingTrip] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const loadData = useCallback(async () => {
@@ -16,6 +17,7 @@ const Dashboard = () => {
     if (!token) return navigate('/login');
 
     try {
+      setLoading(true);
       const [uRes, tRes] = await Promise.all([
         axios.get('http://localhost:5000/api/auth/me', {
           headers: { Authorization: `Bearer ${token}` }
@@ -28,6 +30,8 @@ const Dashboard = () => {
     } catch (e) {
       localStorage.removeItem('token');
       navigate('/login');
+    } finally {
+      setLoading(false);
     }
   }, [navigate]);
 
@@ -47,6 +51,10 @@ const Dashboard = () => {
       alert("Delete failed.");
     }
   };
+
+  if (loading) {
+    return <div className="loading-container"><p>Loading your dashboard...</p></div>;
+  }
 
   return (
     <div className="dashboard-container">
@@ -93,7 +101,9 @@ const Dashboard = () => {
 
       <section className="trips-section">
         <h3>Your Trips</h3>
-        {!trips.length ? <p className="empty-state">No trips yet.</p> : (
+        {!trips.length ? (
+          <p className="empty-state">You haven't added any trips yet. Start your journey!</p>
+        ) : (
           <div className="trips-grid">
             {trips.map(trip => (
               <div key={trip._id} className="trip-card">
