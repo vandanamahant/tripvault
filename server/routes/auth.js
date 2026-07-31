@@ -7,10 +7,10 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, username } = req.body;
 
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'All fields are required.' });
+        if (!name || !email || !password || !username) {
+            return res.status(400).json({ message: 'All fields including username are required.' });
         }
 
         const userExists = await User.findOne({ email });
@@ -18,8 +18,18 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already registered.' });
         }
 
+        const usernameExists = await User.findOne({ username });
+        if (usernameExists) {
+            return res.status(400).json({ message: 'Username is already taken.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ 
+            name, 
+            email, 
+            password: hashedPassword, 
+            username 
+        });
 
         await newUser.save();
         console.log("New user registered:", email);
@@ -58,9 +68,9 @@ router.get('/me', authMiddleware, async (req, res) => {
         }
         res.json(user);
     } catch (error) {
-    console.error("Login Error:", error); 
-    res.status(500).json({ message: 'Server error during login.', error: error.message });
-}
+        console.error("Auth Error:", error); 
+        res.status(500).json({ message: 'Server error.', error: error.message });
+    }
 });
 
 module.exports = router;
