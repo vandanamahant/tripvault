@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const Register = () => {
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,7 +16,7 @@ const Register = () => {
     setError('');
 
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+      await axios.post('http://localhost:5000/api/auth/register', { name, username, email, password });
       alert('Account created successfully! Redirecting to login...');
       navigate('/login');
     } catch (err) {
@@ -35,6 +36,15 @@ const Register = () => {
             placeholder="Full Name" 
             value={name} 
             onChange={(e) => setName(e.target.value)} 
+            required 
+          />
+        </div>
+        <div className="form-group">
+          <input 
+            type="text" 
+            placeholder="Username" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
             required 
           />
         </div>
