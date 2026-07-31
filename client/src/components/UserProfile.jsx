@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import api from '../api';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function UserProfile() {
   const { username } = useParams();
@@ -22,14 +19,13 @@ export default function UserProfile() {
   const fetchProfileData = async () => {
     try {
       setLoading(true);
-      const profileRes = await axios.get(`${API_BASE_URL}/api/users/${username}/profile`);
+      
+      const profileRes = await api.get(`/users/${username}/profile`);
       setProfileData(profileRes.data);
       setBioInput(profileRes.data?.user?.bio || '');
 
       if (token) {
-        const userRes = await axios.get(`${API_BASE_URL}/api/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const userRes = await api.get('/auth/me');
         setCurrentUser(userRes.data);
       }
     } catch (err) {
@@ -47,11 +43,7 @@ export default function UserProfile() {
     e.preventDefault();
     try {
       setUpdating(true);
-      const { data } = await axios.put(
-        `${API_BASE_URL}/api/users/profile`,
-        { bio: bioInput },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const { data } = await api.put('/users/profile', { bio: bioInput });
       setProfileData(prev => ({
         ...prev,
         user: { ...prev.user, bio: data.user?.bio || bioInput }
