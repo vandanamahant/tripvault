@@ -64,7 +64,7 @@ const Dashboard = () => {
         </div>
         <div className="header-bottom-row">
           {user && (
-            <Link to={`/profile/${user._id}`} className="profile-link-text">
+            <Link to={`/profile/${user.username}`} className="profile-link-text">
               View My Profile
             </Link>
           )}
