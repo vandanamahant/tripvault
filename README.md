@@ -1,7 +1,9 @@
-# TripVault | Personal Travel Journal
+# 🌍 TripVault - Personal Travel Journal
 
 TripVault is a full-stack MERN application designed for users to document and manage their travel memories. This project serves as a comprehensive travel management system featuring secure authentication and complete data lifecycle management.
 
+## 🚀 Live Demo
+- **Live App (Vercel):** [Visit TripVault](https://tripvault-two.vercel.app/)
 ---
 
 ## 🔐 Week 1: Project Setup & Authentication
@@ -58,11 +60,25 @@ This week's development focused on integrating cloud media storage and building 
 
 ---
 
-## 💻 Tech Stack
-* **Frontend**: React.js (Vite), Axios, React Router
-* **Backend**: Node.js, Express.js, Multer
-* **Database**: MongoDB, Mongoose
-* **Media Storage**: Cloudinary
+## ✨ Week 4: UI Polish, Responsive Design & Deployment
+- **UI Polish:** Integrated loading states, user-friendly error messages, empty states, and a consistent layout with a navigation bar and footer.
+- **Responsive Design:** Fully adaptive layout featuring a mobile hamburger menu, optimized for mobile screens (375px+) and desktops.
+- **Live Deployment:** Successfully deployed the backend on Render and frontend on Vercel with environment variables.
 
 ---
-*Project developed as part of the TripVault Virtual Internship Program.*
+
+## 💻 Tech Stack
+- **Frontend:** React.js (Vite), Axios, React Router, CSS (Fully Responsive)
+- **Backend:** Node.js, Express.js, Multer
+- **Database:** MongoDB, Mongoose
+- **Media Storage:** Cloudinary
+
+---
+
+## 👨‍💻 Author
+
+- **Vandana Mahant**
+
+- **GitHub:** vandanamahant
+
+Project developed as part of the TripVault Virtual Internship Program.
