@@ -74,12 +74,19 @@ router.put('/:id/photo', authMiddleware, upload.single('image'), async (req, res
   }
 });
 
-router.put('/:id', authMiddleware, async (req, res, next) => {
+router.put('/:id', authMiddleware, upload.single('image'), async (req, res, next) => {
   try {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      updateData.coverImage = req.file.path;
+      updateData.photos = [req.file.path];
+    }
+
     const trip = await Trip.findOneAndUpdate(
       { _id: req.params.id, user: req.userId },
-      req.body,
-      { new: true }
+      updateData,
+      { new: true, runValidators: true }
     );
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
     res.status(200).json(trip);

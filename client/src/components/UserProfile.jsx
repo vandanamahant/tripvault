@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api from '../api';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function UserProfile() {
   const { username } = useParams();
   const [profileData, setProfileData] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
@@ -14,23 +16,31 @@ export default function UserProfile() {
   const [bioInput, setBioInput] = useState('');
   const [updating, setUpdating] = useState(false);
 
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(`${API_BASE_URL}/api/users/${username}/profile`);
-        setProfileData(data);
-        setBioInput(data?.user?.bio || '');
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load profile.');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchProfileData = async () => {
+    try {
+      setLoading(true);
+      const profileRes = await axios.get(`${API_BASE_URL}/api/users/${username}/profile`);
+      setProfileData(profileRes.data);
+      setBioInput(profileRes.data?.user?.bio || '');
 
-    fetchProfile();
+      if (token) {
+        const userRes = await axios.get(`${API_BASE_URL}/api/auth/me`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setCurrentUser(userRes.data);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to load profile.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileData();
   }, [username]);
 
   const handleUpdateBio = async (e) => {
@@ -54,6 +64,16 @@ export default function UserProfile() {
     }
   };
 
+  const handleDeleteTrip = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this trip?")) return;
+    try {
+      await api.delete(`/trips/${id}`);
+      fetchProfileData();
+    } catch (err) {
+      alert("Delete failed.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="profile-status-container">
@@ -71,6 +91,7 @@ export default function UserProfile() {
   }
 
   const { user, trips } = profileData || {};
+  const isOwner = currentUser && user && currentUser._id === user._id;
 
   return (
     <div className="profile-page-container">
@@ -83,7 +104,7 @@ export default function UserProfile() {
             <p className="profile-bio">
               {user?.bio || 'No bio provided yet.'}
             </p>
-            {token && (
+            {isOwner && (
               <button 
                 className="btn btn-secondary profile-action-btn" 
                 onClick={() => setIsEditing(true)}
@@ -141,6 +162,13 @@ export default function UserProfile() {
                 <h3 className="profile-trip-title">{trip.title}</h3>
                 <p className="profile-trip-destination">📍 {trip.destination}</p>
                 <span className="profile-trip-rating">Rating: {trip.rating || 'N/A'} ⭐</span>
+                
+                {isOwner && (
+                  <div className="card-actions" style={{ marginTop: '10px' }}>
+                    <button className="btn btn-edit" onClick={() => navigate('/dashboard')}>Edit</button>
+                    <button className="btn btn-delete" onClick={() => handleDeleteTrip(trip._id)}>Delete</button>
+                  </div>
+                )}
               </div>
             </div>
           ))}
