@@ -11,7 +11,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: 'https://tripvault-alpha.vercel.app/',
+  origin: [
+    'https://tripvault-two.vercel.app',
+    'https://tripvault-alpha.vercel.app'
+  ],
   credentials: true
 }));
 app.use(express.json());
