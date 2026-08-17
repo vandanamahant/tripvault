@@ -3,7 +3,7 @@
 TripVault is a full-stack MERN application designed for users to document and manage their travel memories. This project serves as a comprehensive travel management system featuring secure authentication and complete data lifecycle management.
 
 ## 🚀 Live Demo
-- **Live App (Vercel):** [Visit TripVault](https://tripvault-two.vercel.app/)
+- **Live App (Vercel):** [Visit TripVault](https://tripvault-alpha.vercel.app/)
 ---
 
 ## 🔐 Week 1: Project Setup & Authentication
