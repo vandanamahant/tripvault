@@ -19,12 +19,12 @@ const Dashboard = ({ isMobileMenuOpen, toggleMobileMenu }) => {
     try {
       setLoading(true);
       const [uRes, tRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/auth/me', {
+        api.get('/auth/me', {
           headers: { Authorization: `Bearer ${token}` }
         }),
         api.get('/trips')
       ]);
-      
+
       setUser(uRes.data);
       setTrips(tRes.data);
     } catch (e) {
@@ -104,8 +104,8 @@ const Dashboard = ({ isMobileMenuOpen, toggleMobileMenu }) => {
       </header>
 
       <section className="actions-section">
-        <button 
-          className="btn btn-primary" 
+        <button
+          className="btn btn-primary"
           onClick={() => { setEditingTrip(null); setShowForm(!showForm); }}
         >
           {showForm ? 'Cancel' : '+ Create New Trip'}
@@ -114,9 +114,9 @@ const Dashboard = ({ isMobileMenuOpen, toggleMobileMenu }) => {
 
       {showForm && (
         <div className="form-wrapper">
-          <TripForm 
-            trip={editingTrip} 
-            onTripCreated={() => { setShowForm(false); loadData(); }} 
+          <TripForm
+            trip={editingTrip}
+            onTripCreated={() => { setShowForm(false); loadData(); }}
           />
         </div>
       )}
@@ -127,7 +127,7 @@ const Dashboard = ({ isMobileMenuOpen, toggleMobileMenu }) => {
           <p className="empty-state">You haven't added any trips yet. Start your journey!</p>
         ) : (
           <div className="trips-grid">
-            {trips.map(trip => (
+            {Array.isArray(trips) && trips.map(trip => (
               <div key={trip._id} className="trip-card">
                 {trip.coverImage ? (
                   <div className="trip-card-image-container">
